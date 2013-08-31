@@ -1,0 +1,33 @@
+extends layout
+
+block body
+
+  div#header
+    block header
+      h1#logo
+        a(href="/")= website
+      #nav_bar
+        ul#nav
+          li.nav_item
+            a(href="/news") 新闻
+          li.nav_item
+            a(href="/calendar") 活动
+          li.nav_item
+            a(href="/user") 人员
+          li.nav_item 
+            |
+          if (typeof(user) != 'undefined')
+            li.nav_item
+              a(href="/user/#{user.name}") #{user.name}
+            li.nav_item
+              a(href="/user/signout") x
+          else
+            li.nav_item
+              a(href="/user/signin") 登录
+
+  div#content
+    block content
+
+  div#footer
+    block footer
+      © 2013 MSVA

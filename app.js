@@ -21,6 +21,10 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.cookieParser(settings.secret));
 app.use(express.session(settings.sessionDB));
+app.use(function(req, res, next) {
+    res.locals.website = settings.website;
+    next();
+});
 app.use(app.router);
 app.use(require('less-middleware')({ src: __dirname + '/public' }));
 app.use(express.static(path.join(__dirname, 'public')));

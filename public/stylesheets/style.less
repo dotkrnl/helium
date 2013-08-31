@@ -1,8 +1,138 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
+@import "reset.css";
 
+@smallscreen:   960px;
+@mobilescreen:  480px;
+
+body {
+    @padding-header:    80px;
+    @padding-other:     50px;
+    padding:
+        (@padding-other * 2) (@padding-header * 2)
+        (@padding-other * 2) (@padding-other * 2);
+    @media screen and (max-width: @smallscreen) {
+        padding:
+            @padding-other @padding-header
+            @padding-other @padding-other;
+    }
+    @media screen and (max-width: @mobilescreen) {
+        padding:
+            (@padding-other / 2) (@padding-header / 2)
+            (@padding-other / 2) (@padding-other / 2);
+    }
+    max-width: 800px;
+    font: 17px "Lucida Grande", Helvetica, Arial,
+        "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+}
+h1 {
+    margin: 20px 0 20px 0;
+    font-size: 2em;
+}
+h2 {
+    margin: 15px 0 15px 0;
+    font-size: 1.5em;
+}
+h3 {
+    padding-top: 10px;
+    font-size: 1.17em;
+}
 a {
-  color: #00B7FF;
+    color: #777;
+    text-decoration: none;
+}
+p,
+pre {
+    margin: 17px 0 17px 0;
+}
+strong,
+em {
+    color: #4e8ca6;
+}
+table {
+    min-width: 500px;
+    margin-top: 20px;
+}
+td,
+#limit_box {
+    background-color: #f7f7f7;
+    padding: 10px;
+}
+#limit_box {
+    font-size: 0.7em;
+    color: #777;
+}
+input,
+textarea {
+    background-color: #f7f7f7;
+    border: 0;
+    padding: 10px;
+    font-size: 1em;
+}
+textarea {
+    width: 80%;
+    max-width: 100%;
+    height: 350px;
+}
+select {
+    background: #fff;
+    margin-top: 20px;
+    padding: 15px;
+    border: 0;
+}
+#username,
+#password {
+    width: 210px;
+}
+#signin_username,
+#signin_password {
+    margin: 2px 0 2px 0;
+}
+#submit,
+#button {
+    color: #fff;
+    background-color: #777;
+    margin-top: 20px;
+    padding: 10px;
+}
+.marginer_up {
+    margin-top: 40px;
+}
+.message {
+    color: #fff;
+    background-color: #4e8ca6;
+    padding: 10px;
+    margin: 20px 0 20px 0;
+}
+#redirect {
+    display: none;
+}
+#nav {
+    font-size: 0.6em;
+}
+.nav_item {
+    text-transform: uppercase;
+    display: inline;
+    margin: 0 10px 0 0;
+}
+#content {
+    margin: 40px 0 40px 0;
+}
+.problist_headinfo {
+    color: #fff;
+    background-color: #777;
+    text-transform: uppercase;
+}
+.problist_id {
+    width: 20%;
+}
+.problist_info {
+    width: 80%;
+}
+#lrnav_bar {
+    margin: 10px 0 0 0;
+}
+.lrnav {
+    margin: 0 20px 0 0;
+}
+#footer {
+    font-size: 8pt;
 }

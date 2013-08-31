@@ -1,7 +1,12 @@
 doctype 5
-html
+meta(charset="utf-8")
+html(lang='zh-CN')
   head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    block head
+      if (typeof(title) != 'undefined')
+        title #{title} | #{website}
+      else  
+        title= website
+      link(rel='stylesheet', href='/stylesheets/style.css')
   body
-    block content
+    block body
