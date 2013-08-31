@@ -31,7 +31,7 @@ body {
     max-width: 800px;
     color: @text-color;
     background-color: @background;
-    font: 1.2em 
+    font: 1em 
         "Lucida Grande", Helvetica, Arial, "Droid Sans",
         "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
 }
@@ -102,6 +102,9 @@ select {
 
 #content {
     padding: 2em 0 2em 0;
+    @media screen and (max-width: @mobilescreen) {
+        padding: 0.5em 0 0.5em 0;
+    }
 }
 
 #footer {
