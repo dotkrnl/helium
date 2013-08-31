@@ -18,12 +18,14 @@ block body
             |
           if (typeof(user) != 'undefined')
             li.nav_item
-              a(href="/user/#{user.name}") #{user.name}
+              a(href="/user/#{user.username}") #{user.username}
             li.nav_item
               a(href="/user/signout") x
           else
             li.nav_item
               a(href="/user/signin") 登录
+            li.nav_item
+              a(href="/user/register") 注册
 
   div#content
     block content

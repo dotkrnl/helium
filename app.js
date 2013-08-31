@@ -9,6 +9,14 @@ var routes = require('./routes');
 var http = require('http');
 var path = require('path');
 
+var passport = require('passport');
+var User = require('./models/user');
+var LocalStrategy = require('passport-local').Strategy;
+
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 var app = express();
 
 // all environments
@@ -21,8 +29,11 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.cookieParser(settings.secret));
 app.use(express.session(settings.sessionDB));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(function(req, res, next) {
     res.locals.website = settings.website;
+    res.locals.user = req.user;
     next();
 });
 app.use(app.router);
