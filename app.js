@@ -8,6 +8,7 @@ var settings = require('./settings');
 var routes = require('./routes');
 var http = require('http');
 var path = require('path');
+var flash = require('connect-flash');
 
 var passport = require('passport');
 var User = require('./models/user');
@@ -29,11 +30,16 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.cookieParser(settings.secret));
 app.use(express.session(settings.sessionDB));
+app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(function(req, res, next) {
     res.locals.website = settings.website;
     res.locals.user = req.user;
+    res.locals.message = {
+        success: req.flash('success'),
+        error:   req.flash('error'),
+    }
     next();
 });
 app.use(app.router);

@@ -2,34 +2,41 @@ extends layout
 
 block body
 
-  div#header
-    block header
-      h1#logo
-        a(href="/") 泉州一中<br/>志愿者协会
-      #nav_bar
-        ul#nav
-          li.nav_item
-            a(href="/news") 新闻
-          li.nav_item
-            a(href="/calendar") 活动
-          li.nav_item
-            a(href="/user") 人员
-          li.nav_item 
-            |
-          if (typeof(user) != 'undefined')
-            li.nav_item
-              a(href="/user/#{user.username}") #{user.username}
-            li.nav_item
-              a(href="/user/signout") x
-          else
-            li.nav_item
-              a(href="/user/signin") 登录
-            li.nav_item
-              a(href="/user/register") 注册
+    div#header
+        block header
+            h1#logo
+                a(href="/") 泉州一中<br/>志愿者协会
+            #nav_bar
+                ul#nav
+                    li.nav_item
+                        a(href="/news") 新闻
+                    li.nav_item
+                        a(href="/calendar") 活动
+                    li.nav_item
+                        a(href="/user") 人员
+                    li.nav_item 
+                        |
+                    if (typeof(user) != 'undefined')
+                        li.nav_item
+                            a(href="/user/#{user.username}") #{user.username}
+                        li.nav_item
+                            a(href="/user/signout") x
+                    else
+                        li.nav_item
+                            a(href="/user/signin") 登录
+                        li.nav_item
+                            a(href="/user/register") 加入
+        block notification
+            if (typeof(message.error) != 'undefined')
+                for mesg in message.error
+                    div.message= mesg
+            if (typeof(message.success) != 'undefined')
+                for mesg in message.success
+                    div.message= mesg
 
-  div#content
-    block content
+    div#content
+        block content
 
-  div#footer
-    block footer
-      © 2013 泉州一中志愿者协会
+    div#footer
+        block footer
+            © 2013 泉州一中志愿者协会

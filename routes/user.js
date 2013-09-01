@@ -6,11 +6,11 @@
 var passport = require('passport');
 var user = require('../models/user');
 
-exports.showreg = function(req, res) {
-    res.render('register', { });
+exports.showRegister = function(req, res) {
+    res.render('register');
 };
 
-exports.doreg = function(req, res) {
+exports.doRegister = function(req, res) {
     user.register(
         new user({ username : req.body.username }),
         req.body.password,
@@ -19,13 +19,18 @@ exports.doreg = function(req, res) {
                 return res.render('register', { account : account });
             }
             req.login(newuser, function(err) {
-                if (err) { throw err; }
+                if (err) console.log(err);
                 return res.redirect('/users/' + req.user.username);
             });
         }
     );
 };
 
-exports.list = function(req, res){
-  res.send("respond with a resource");
+exports.showSignin = function(req, res) {
+    res.render('signin', { user : req.user });
 };
+
+exports.doSignout = function(req, res) {
+    req.logout();
+    res.redirect('/');
+}
