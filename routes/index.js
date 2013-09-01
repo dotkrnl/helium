@@ -5,6 +5,7 @@
 
 var homepage = require('./homepage');
 var user = require('./user');
+var test = require('./test');
 var passport = require('passport');
 
 module.exports = function(app) {
@@ -19,4 +20,5 @@ module.exports = function(app) {
           failureFlash: '抱歉，手机号或密码错误。',
         }));
     app.get('/user/signout', user.doSignout);
+    app.get('/test', test);
 }
