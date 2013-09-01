@@ -16,11 +16,12 @@ exports.doRegister = function(req, res) {
         req.body.password,
         function(err, newuser) {
             if (err) {
-                return res.render('register', { account : account });
+                req.flash('error', '抱歉，此手机号已被使用。');
+                return res.redirect('/user/register');
             }
             req.login(newuser, function(err) {
                 if (err) console.log(err);
-                return res.redirect('/users/' + req.user.username);
+                return res.redirect('/');
             });
         }
     );
