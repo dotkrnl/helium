@@ -69,26 +69,18 @@ strong, em {
     color: @emphasize;
 }
 
-input, textarea {
+input, textarea, select {
     background-color: #f7f7f7;
     border: 0;
-    width: 210px;
-    padding: 10px;
-    margin: 2px 0 2px 0;
+    width: 12em;
+    padding: 0.6em;
+    margin: 0.1em 0 0.1em 0;
     font-size: 1em;
-}
-
-textarea {
-    width: 80%;
-    max-width: 100%;
-    height: 350px;
+    -webkit-appearance: none;
 }
 
 select {
-    background: #fff;
-    margin-top: 20px;
-    padding: 15px;
-    border: 0;
+    width: (12em + 0.6em * 2);
 }
 
 #nav {
@@ -125,6 +117,7 @@ label {
     margin-top: 1em;
 }
 
-#footer {
-    font-size: 0.7em;
+.note, #footer {
+    font-size: 0.6em;
+    padding: 0.5em 0 0.5em 0;
 }

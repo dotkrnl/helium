@@ -11,20 +11,33 @@ exports.showRegister = function(req, res) {
 };
 
 exports.doRegister = function(req, res) {
-    user.register(
-        new user({ username : req.body.username }),
-        req.body.password,
-        function(err, newuser) {
-            if (err) {
-                req.flash('error', '抱歉，此手机号已被使用。');
+    password = req.body.password;
+    user.normalize.normalizeAll(req.body,
+        function(newinfo, errors) {
+            if (errors) {
+                errors.forEach(function(err) {
+                    req.flash('error', err);
+                });
                 return res.redirect('/user/register');
             }
-            req.login(newuser, function(err) {
-                if (err) console.log(err);
-                return res.redirect('/');
-            });
-        }
-    );
+            delete newinfo['password'];
+            user.register(
+                new user(newinfo),
+                password,
+                function(err, newuser) {
+                    if (err) {
+                        console.log(err);
+                        req.flash('error', '抱歉，此手机号已被使用。');
+                        return res.redirect('/user/register');
+                    }
+                    req.login(newuser, function(err) {
+                        if (err) console.log(err);
+                        req.flash('success', '泉州一中志愿者协会感谢您的加入！');
+                        return res.redirect('/');
+                    });
+                }
+            );
+        });
 };
 
 exports.showSignin = function(req, res) {
