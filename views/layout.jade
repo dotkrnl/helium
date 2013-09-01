@@ -1,13 +1,13 @@
 doctype 5
-meta(charset="utf-8")
-meta(name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no")
 html(lang='zh-CN')
-  head
-    block head
-      if (typeof(title) != 'undefined')
-        title #{title} | #{website}
-      else  
-        title= website
-      link(rel='stylesheet', href='/stylesheets/style.css')
-  body
-    block body
+    head
+        block head
+            meta(charset="utf-8")
+            meta(name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no")
+        if (typeof(title) != 'undefined')
+            title #{title} | #{website}
+        else  
+            title= website
+        link(rel='stylesheet', href='/stylesheets/style.css')
+    body
+        block body
