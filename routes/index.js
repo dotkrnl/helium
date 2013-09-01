@@ -21,4 +21,7 @@ module.exports = function(app) {
         }));
     app.get('/user/signout', user.doSignout);
     app.get('/test', test);
+    app.get('*', function(req, res){
+        res.redirect('/');
+    });
 }

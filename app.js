@@ -42,9 +42,9 @@ app.use(function(req, res, next) {
     }
     next();
 });
-app.use(app.router);
 app.use(require('less-middleware')({ src: __dirname + '/public' }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(app.router);
 
 // development only
 if ('development' == app.get('env')) {
