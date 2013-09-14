@@ -59,13 +59,25 @@ exports.normalizer = {
         if (!origin.length) return cb('', '请输入密码用于后续登录');
         else return cb(origin);
     },
+    
+    want: function(origin, cb) {
+        okList = {'none': true, 'leader': true, 'organize': true,
+                  'publicize': true, 'contact': true};
+        if (origin in okList) return cb(origin);
+        else return cb('', '乱构造 HTTP 请求是不对的，亲~');
+    },
+
+    advice: function(origin, cb) {
+        return cb(origin);
+    },
 }
 
 exports.normalizeAll = function(origin, cb) {
     errors = [];
+    result = {};
     genProcessGet = function(key) {
         return function(dest, err) {
-            origin[key] = dest;
+            result[key] = dest;
             if (err) errors.push(err);
         }
     }
@@ -77,6 +89,6 @@ exports.normalizeAll = function(origin, cb) {
         }
     );
     if (errors.length)
-        cb(origin, errors);
-    else cb(origin);
+        cb(result, errors);
+    else cb(result);
 }

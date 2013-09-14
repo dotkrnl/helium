@@ -1,0 +1,74 @@
+extends style
+
+block content
+    h2= title
+    form#form(action="#",method="post")
+        div
+            label 姓名
+            input#fullname(type="text", value="#{form.fullname || ''}", name="fullname")
+
+        div
+            label 手机
+            input#username(type="text", value="#{form.username || ''}", name="username")
+        
+        div
+            label 班级
+            input#class(type="text", value="#{form.class || ''}", name="class")
+
+        div
+            label 性别
+            select#gender(name="gender")
+                - if (form.gender == 'female')
+                    option(value="female", selected="selected") 女
+                - else    
+                    option(value="female") 女
+                - if (form.gender == 'male')
+                    option(value="male", selected="selected") 男
+                - else
+                    option(value="male") 男
+                - if (form.gender == 'other')
+                    option(value="other", selected="selected") 其他
+                - else
+                    option(value="other") 其他
+
+        div
+            label 密码
+            input#password(type="password", name="password")
+
+        div.note - 以下选填 -
+        
+        div
+            label 邮箱
+            input#email(type="text", value="#{form.email || ''}", name="email")
+
+        div
+            label 意向
+            select#want(name="want")
+                - if (form.want == 'none')
+                    option(value="none", selected="selected")  无
+                - else
+                    option(value="none") 无
+                - if (form.want == 'leader')
+                    option(value="leader", selected="selected") 理事长
+                - else
+                    option(value="leader") 理事长
+                - if (form.want == 'organize')
+                    option(value="organize", selected="selected") 组织部
+                - else
+                    option(value="organize") 组织部
+                - if (form.want == 'publicize')
+                    option(value="publicize", selected="selected") 宣传部
+                - else
+                    option(value="publicize") 宣传部
+                - if (form.want == 'contact')
+                    option(value="contact", selected="selected") 外联部
+                - else
+                    option(value="contact") 外联部
+
+        div
+            label 建议
+            input#advice(type="text", value="#{form.advice || ''}", name="advice")
+
+        div
+            input.button(type="submit", value="加入")
+
