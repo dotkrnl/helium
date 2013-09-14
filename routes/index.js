@@ -20,6 +20,21 @@ function ensureAdmin(req, res, next) {
   res.redirect('/user/signin?redirect=' + req.path);
 }
 
+function firstNumber(str, df) {
+    arr = str.match(/\d+/);
+    if (arr) return arr[0];
+    else return df;
+}
+
+function ensurePermission(req, res, next) {
+    if (req.isAuthenticated() && req.user.isadmin)
+        { return next(); }
+    if (req.isAuthenticated() &&
+            req.user.username == firstNumber(req.path, ''))
+        { return next(); }
+    res.redirect('/user/signin?redirect=' + req.path);
+}
+
 module.exports = function(app) {
     app.get('/', homepage.index);
     app.get('/user/register', user.showRegister);
@@ -32,6 +47,8 @@ module.exports = function(app) {
           failureFlash: '抱歉，手机号或密码错误。',
         }));
     app.get('/user/signout', user.doSignout);
+    app.get('/user/edit/*', ensurePermission, user.showEditUser);
+    app.post('/user/edit/*', ensurePermission, user.doEditUser);
     app.get('/news', news.showList);
     app.get('/news/page/*', news.showList);
     app.get('/news/post', ensureAdmin, news.showNewItem);
