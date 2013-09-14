@@ -20,6 +20,6 @@ append content
 			a(href='/news/page/#{page-1}').lrnav << 上一页
 		- if (page < totpage)
 			a(href='/news/page/#{page+1}').lrnav 下一页 >>
-	- if (user.isadmin)
+	- if (user && user.isadmin)
 		#lrnav_bar
 			a.button(href="/news/post") 添加新闻

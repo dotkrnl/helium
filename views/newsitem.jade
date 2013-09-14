@@ -9,7 +9,7 @@ append content
 			| #{create.getDate()}
 		div 作者：#{author}
 	!{content}
-	- if (user.isadmin)
+	- if (user && user.isadmin)
 		#lrnav_bar
 			a.button(href="/news/edit/#{id}") 修改
 			a.button(href="/news/del/#{id}") 删除
