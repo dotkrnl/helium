@@ -22,4 +22,5 @@ module.exports = {
         secret: cookieSecret,
         store: new mongoStore(databaseInfo),
     },
+    perpage: 10,
 };

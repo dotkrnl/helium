@@ -15,6 +15,7 @@ module.exports = new Schema({
     email:      String,
     want:       String,
     advice:     String,
+    isadmin:    Boolean, 
     create:     { type: Date, default: Date.now }
 });
 

@@ -1,0 +1,25 @@
+extends style
+
+append content
+	h2 新闻列表
+	table.list
+		tr.list_head
+			td.head_info 标题
+			td.head_info 时间
+		for news in newslist
+			tr.list_item
+				td.list_info
+					a(href='/news/#{news.id}')= news.title
+				td.list_info
+					a
+						| #{news.create.getFullYear()} /
+						| #{news.create.getMonth() + 1} /
+						| #{news.create.getDate()}
+	#lrnav_bar
+		- if (page != 1)
+			a(href='/news/page/#{page-1}').lrnav << 上一页
+		- if (page < totpage)
+			a(href='/news/page/#{page+1}').lrnav 下一页 >>
+	- if (user.isadmin)
+		#lrnav_bar
+			a.button(href="/news/post") 添加新闻

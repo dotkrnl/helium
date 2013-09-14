@@ -1,0 +1,27 @@
+extends style
+
+block content
+    h2 管理新闻
+    form#form(action="#",method="post")
+        div
+            label 标题
+            input#title(type="text", value="#{title || ''}", name="title")
+
+        div
+            label 时间
+            input#create(type="text",
+                value="#{create || Date(Date.now())}",
+                name="create")
+        
+        div
+            label 作者
+            input#author(type="text", value="#{author || user.fullname}", name="author")
+
+        div
+            textarea#contentbox(name="content")
+                | #{content || ''}
+            .note （支持 Markdown 语法）
+
+        div
+            input.button(type="submit", value="添加/修改")
+
