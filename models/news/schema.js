@@ -10,6 +10,6 @@ module.exports = new Schema({
     title: String,
     author: String,
     content: String,
-    create: { type: Date, default: Date.now },
+    create: { type: Date, default: Date.now, index: true },
     id: {type: Number, index: {unique: true}},
 });

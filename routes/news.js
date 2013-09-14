@@ -20,7 +20,7 @@ exports.showList = function(req, res) {
         if (err) console.log(err);
         info.totpage = Math.ceil(count / settings.perpage);
         skip = settings.perpage * (page - 1);
-        news.find().sort('-id').skip(skip).limit(settings.perpage)
+        news.find().sort('-create').skip(skip).limit(settings.perpage)
             .find(function(err, newslist){
                 info.newslist = newslist
                 return res.render('newslist', info);
