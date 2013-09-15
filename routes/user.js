@@ -6,12 +6,6 @@
 var passport = require('passport');
 var user = require('../models/user');
 
-function firstNumber(str, df) {
-    arr = str.match(/\d+/);
-    if (arr) return arr[0];
-    else return df;
-}
-
 exports.showRegister = function(req, res) {
     res.render('useredit', {form: {}, title:'加入志愿者'});
 };
@@ -48,7 +42,7 @@ exports.doRegister = function(req, res) {
 };
 
 exports.showEditUser = function(req, res) {
-    username = firstNumber(req.path, 0);
+    username = req.params.id;
     user.findOne({username: username}).exec(function(err, editing) {
         if (!editing) {
             req.flash('error', '没有找到此用户。');
@@ -59,7 +53,7 @@ exports.showEditUser = function(req, res) {
 };
 
 exports.doEditUser = function(req, res) {
-    username = firstNumber(req.path, 0);
+    username = req.params.id;
     password = req.body.password;
     req.body.password = 'passcheck';
     user.findOne({username: username}).exec(function(err, editing) {
@@ -87,10 +81,10 @@ exports.doEditUser = function(req, res) {
                                 editing.save(function(err) {
                                     if (err) return fallback([err]);
                                     req.flash('success', '用户密码已修改。');
-                                    return res.redirect('/user/edit/' + username);
+                                    return res.redirect('/user/' + username + '/edit');
                                 });
                             });
-                        return res.redirect('/user/edit/' + username);
+                        return res.redirect('/user/' + username + '/edit');
                     });
                 });
             });

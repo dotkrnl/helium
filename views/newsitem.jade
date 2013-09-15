@@ -11,6 +11,6 @@ append content
 	!{content}
 	- if (user && user.isadmin)
 		#lrnav_bar
-			a.button(href="/news/edit/#{id}") 修改
-			a.button(href="/news/del/#{id}") 删除
+			a.button(href="/news/#{id}/edit") 修改
+			a.button(href="/news/#{id}/delete") 删除
 		a.note 注意：删除后的新闻无法恢复。

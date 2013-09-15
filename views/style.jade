@@ -18,7 +18,7 @@ block body
                         |
                     if (typeof(user) != 'undefined')
                         li.nav_item
-                            a(href="/user/edit/#{user.username}") #{user.fullname}
+                            a(href="/user/#{user.username}/edit") #{user.fullname}
                         li.nav_item
                             a(href="/user/signout") x
                     else
