@@ -8,7 +8,7 @@ var news = require('../models/news');
 var md = require('markdown').markdown.toHTML;
 
 exports.showList = function(req, res) {
-    info = {}
+    info = {title: '新闻列表'}
     info.page = page = Number(req.params.page || '1');
     news.count(function(err, count) {
         if (err) console.log(err);
@@ -31,7 +31,8 @@ exports.showItem = function(req, res) {
             return res.redirect('/news');
         }
         newsitem.content = md(newsitem.content);
-        return res.render('newsitem', newsitem);
+        info = {news: newsitem, title: newsitem.title};
+        return res.render('newsitem', info);
     });
 }
 
