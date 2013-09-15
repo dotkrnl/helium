@@ -40,12 +40,13 @@ module.exports = function(app) {
     app.post('/user/signin', passport.authenticate('local',
         { successRedirect: '/',
           successFlash: '登录成功，欢迎回来。',
-          failureRedirect: '/user/signin',
+          failureRedirect: 'back',
           failureFlash: '抱歉，手机号或密码错误。',
         }));
     app.get('/user/signout', user.doSignout);
     app.get('/user/:id(\\d{8,13})/edit', ensurePermission, user.showEditUser);
     app.post('/user/:id(\\d{8,13})/edit', ensurePermission, user.doEditUser);
+    app.get('/user/:id(\\d{8,13})/setadmin', ensureAdmin, user.setAdmin);
     
     app.get('/news', news.showList);
     app.get('/news/page/:page(\\d+)', news.showList);

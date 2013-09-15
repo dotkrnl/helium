@@ -15,8 +15,8 @@ module.exports = new Schema({
     email:      String,
     want:       String,
     advice:     String,
-    isadmin:    Boolean, 
-    create:     { type: Date, default: Date.now }
+    isadmin:    { type: Boolean, default: false }, 
+    create:     { type: Date, default: Date.now, index: true }
 });
 
 module.exports.plugin(passportLocalMongoose);

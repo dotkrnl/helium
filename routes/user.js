@@ -47,7 +47,7 @@ exports.showEditUser = function(req, res) {
     user.findOne({username: username}).exec(function(err, editing) {
         if (!editing) {
             req.flash('error', '没有找到此用户。');
-            return res.redirect('/');
+            return res.redirect('back');
         }
         return res.render('useredit', {form: editing, title: '修改资料'}); 
     });
@@ -58,6 +58,10 @@ exports.doEditUser = function(req, res) {
     var password = req.body.password;
     req.body.password = 'passcheck';
     user.findOne({username: username}).exec(function(err, editing) {
+        if (!editing) {
+            req.flash('error', '没有找到此用户。');
+            return res.redirect('back');
+        }
         user.normalize.normalizeAll(req.body,
             function(newinfo, errors) {
                 var fallback = function(errors) {
@@ -82,10 +86,10 @@ exports.doEditUser = function(req, res) {
                                 editing.save(function(err) {
                                     if (err) return fallback([err]);
                                     req.flash('success', '用户密码已修改。');
-                                    return res.redirect('/user/' + username + '/edit');
+                                    return res.redirect('back');
                                 });
                             });
-                        return res.redirect('/user/' + username + '/edit');
+                        return res.redirect('back');
                     });
                 });
             });
@@ -98,7 +102,7 @@ exports.showSignin = function(req, res) {
 
 exports.doSignout = function(req, res) {
     req.logout();
-    res.redirect('/');
+    res.redirect('back');
 }
 
 exports.showList = function(req, res) {
@@ -114,4 +118,30 @@ exports.showList = function(req, res) {
                 return res.render('userlist', info);
             });
     });
+};
+
+exports.setAdmin = function(req, res) {
+    var username = req.params.id;
+    if (username == req.user.username) {
+        req.flash('error', '不能取消自己的管理员权限。');
+        return res.redirect('back');
+    } else {
+        user.findOne({username: username}, function(err,editing) {
+            if (err) console.log(err);
+            if (!editing) {
+                req.flash('error', '没有找到此用户。');
+                return res.redirect('back');
+            }
+            editing.isadmin ^= true;
+            editing.save(function(err) {
+                if (err) {
+                    console.log(err);
+                    req.flash('error', '无法修改管理员权限。');
+                    return res.redirect('back');
+                }
+                req.flash('success', '管理员权限修改完成。');
+                return res.redirect('back');
+            });
+        });
+    }
 };

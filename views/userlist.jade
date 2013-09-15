@@ -17,6 +17,7 @@ append content
                 td.list_info
                     - if (user && user.isadmin)
                         a(href='/user/#{item.username}/edit')= item.fullname
+                        a(href='/user/#{item.username}/setadmin') #{item.isadmin?"#":"$"}
                     - else
                         a= item.fullname
                 td.list_info
@@ -46,6 +47,10 @@ append content
                             a 外联部
                     td.list_info
                         a= item.advice
+    - if (user && user.isadmin)
+        ul.note 
+            li 点击姓名可修改用户信息。
+            li # 为管理员，点击可修改身份。
     #lrnav_bar
         - if (page != 1)
             a(href='/user/page/#{page-1}').lrnav << 上一页
