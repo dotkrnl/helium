@@ -1,0 +1,56 @@
+extends style
+
+append content
+    h2= title
+    table.list
+        tr.list_head
+            td.head_info 姓名
+            td.head_info 性别
+            - if (user && user.isadmin)
+                td.head_info 班级
+                td.head_info 手机
+                td.head_info 邮箱
+                td.head_info 意向
+                td.head_info 建议
+        for item in userlist
+            tr.list_item
+                td.list_info
+                    - if (user && user.isadmin)
+                        a(href='/user/#{item.username}/edit')= item.fullname
+                    - else
+                        a= item.fullname
+                td.list_info
+                    - if (item.gender == 'female')
+                        a 女
+                    - if (item.gender == 'male')
+                        a 男
+                    - if (item.gender == 'other')
+                        a 其他
+                - if (user && user.isadmin)
+                    td.list_info
+                        a= item.class
+                    td.list_info
+                        a= item.username
+                    td.list_info
+                        a= item.email
+                    td.list_info
+                        - if (item.want == 'none')
+                            a 无
+                        - if (item.want == 'leader')
+                            a 理事长
+                        - if (item.want == 'organize')
+                            a 组织部
+                        - if (item.want == 'publicize')
+                            a 宣传部
+                        - if (item.want == 'contact')
+                            a 外联部
+                    td.list_info
+                        a= item.advice
+    #lrnav_bar
+        - if (page != 1)
+            a(href='/user/page/#{page-1}').lrnav << 上一页
+        - if (page < totpage)
+            a(href='/user/page/#{page+1}').lrnav 下一页 >>
+    - if (user && user.isadmin)
+        #lrnav_bar
+            a.button(href="/user/register") 添加用户

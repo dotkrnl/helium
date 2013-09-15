@@ -3,6 +3,7 @@
  * GET users listing.
  */
 
+var settings = require('../settings');
 var passport = require('passport');
 var user = require('../models/user');
 
@@ -99,3 +100,18 @@ exports.doSignout = function(req, res) {
     req.logout();
     res.redirect('/');
 }
+
+exports.showList = function(req, res) {
+    var info = {title: '人员列表'}
+    var page = info.page = Number(req.params.page || '1');
+    user.count(function(err, count) {
+        if (err) console.log(err);
+        info.totpage = Math.ceil(count / settings.perpage);
+        var skip = settings.perpage * (page - 1);
+        user.find().sort('-create').skip(skip).limit(settings.perpage)
+            .find(function(err, userlist){
+                info.userlist = userlist;
+                return res.render('userlist', info);
+            });
+    });
+};

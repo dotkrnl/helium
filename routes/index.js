@@ -32,6 +32,8 @@ function ensurePermission(req, res, next) {
 module.exports = function(app) {
     app.get('/', homepage.index);
 
+    app.get('/user', user.showList);
+    app.get('/user/page/:page(\\d+)', user.showList);
     app.get('/user/register', user.showRegister);
     app.post('/user/register', user.doRegister);
     app.get('/user/signin', user.showSignin);
