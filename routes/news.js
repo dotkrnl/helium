@@ -61,7 +61,7 @@ exports.showEditItem = function (req, res) {
     news.findOne({id: newsid}).exec(function(err, editing) {
         if (err || !editing) {
             req.flash('error', '未找到此新闻');
-            return res.redirect('/news');
+            return res.redirect('back');
         }
         return res.render('newsedit', {form: editing, title: '修改新闻'});
     });
@@ -69,13 +69,19 @@ exports.showEditItem = function (req, res) {
 
 exports.doEditItem = function (req, res) {
     var newsid = req.body.id = Number(req.params.id);
-    news.findOne({id: newsid}).remove(function(err, editing){
-        if (err) console.log(err);
-        var item = new news(req.body);
-        item.save(function(err) {
+    news.findOne({id: newsid}, function(err, editing){
+        if (err) {
+            console.log(err);
+            req.flash('error', '未找到此新闻');
+            return req.redirect('back');
+        }
+        Object.keys(req.body).forEach(function(key) {
+            editing[key] = req.body[key];
+        });
+        editing.save(function(err) {
             if (err) {
                 console.log(err);
-                res.locals.message.error.push('新闻已丢失，可能是日期格式错误，请立即修改后提交。');
+                res.locals.message.error.push('新闻修改失败，可能是日期格式错误。');
                 return res.render('newsedit', {form: req.body, title: '修改新闻'});
             }
             req.flash('success', '新闻已修改！');
