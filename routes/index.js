@@ -11,13 +11,14 @@ var passport = require('passport');
 
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) { return next(); }
-    res.redirect('/user/signin?redirect=' + req.path);
+    req.flash('error', '抱歉，您尚未登录。');
+    return res.redirect('/user/signin?redirect=' + req.path);
 }
-
 
 function ensureAdmin(req, res, next) {
     if (req.isAuthenticated() && req.user.isadmin) { return next(); }
-    res.redirect('/user/signin?redirect=' + req.path);
+    req.flash('error', '抱歉，您不是管理员。');
+    return res.redirect('/user/signin?redirect=' + req.path);
 }
 
 function ensurePermission(req, res, next) {
@@ -26,7 +27,8 @@ function ensurePermission(req, res, next) {
     if (req.isAuthenticated() &&
             req.user.username == req.params.id)
         { return next(); }
-    res.redirect('/user/signin?redirect=' + req.path);
+    req.flash('error', '抱歉，您没有权限。');
+    return res.redirect('/user/signin?redirect=' + req.path);
 }
 
 module.exports = function(app) {
@@ -59,6 +61,6 @@ module.exports = function(app) {
 
     app.get('/test', test);
     app.get('*', function(req, res){
-        res.render('homepage', {title: '404'});
+        return res.render('homepage', {title: '404'});
     });
 }

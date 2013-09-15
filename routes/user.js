@@ -8,7 +8,7 @@ var passport = require('passport');
 var user = require('../models/user');
 
 exports.showRegister = function(req, res) {
-    res.render('useredit', {form: {}, title:'加入志愿者'});
+    return res.render('useredit', {form: {}, title:'加入志愿者'});
 };
 
 exports.doRegister = function(req, res) {
@@ -45,6 +45,7 @@ exports.doRegister = function(req, res) {
 exports.showEditUser = function(req, res) {
     var username = req.params.id;
     user.findOne({username: username}).exec(function(err, editing) {
+        if (err) console.log(err);
         if (!editing) {
             req.flash('error', '没有找到此用户。');
             return res.redirect('back');
@@ -58,6 +59,7 @@ exports.doEditUser = function(req, res) {
     var password = req.body.password;
     req.body.password = 'passcheck';
     user.findOne({username: username}).exec(function(err, editing) {
+        if (err) console.log(err);
         if (!editing) {
             req.flash('error', '没有找到此用户。');
             return res.redirect('back');
@@ -73,18 +75,25 @@ exports.doEditUser = function(req, res) {
                 if (errors) return fallback(errors);
                 delete newinfo['password'];
                 user.findOne({username: newinfo.username}).exec(function(err, found) {
+                    if (err) console.log(err);
                     if (editing.username != newinfo.username && found)
                         return fallback(['抱歉，此手机号已被使用。']);
                     Object.keys(newinfo).forEach(function(key) {
                         editing[key] = newinfo[key];
                     });
                     editing.save(function(err) {
-                        if (err) return fallback([err]);
-                        req.flash('error', '用户资料已更新。');
+                        if (err) {
+                            console.log(err);
+                            return fallback(['用户资料修改失败。']);
+                        }
+                        req.flash('success', '用户资料已更新。');
                         if (password)
                             return editing.setPassword(password, function() { 
                                 editing.save(function(err) {
-                                    if (err) return fallback([err]);
+                                    if (err) {
+                                        console.log(err);
+                                        return fallback(['用户密码修改失败。']);
+                                    }
                                     req.flash('success', '用户密码已修改。');
                                     return res.redirect('back');
                                 });
@@ -97,23 +106,33 @@ exports.doEditUser = function(req, res) {
 };
 
 exports.showSignin = function(req, res) {
-    res.render('signin', { title: '登陆', user : req.user });
+    return res.render('signin', { title: '登陆', user : req.user });
 };
 
 exports.doSignout = function(req, res) {
     req.logout();
-    res.redirect('back');
+    req.flash('success', '已成功登出。');
+    return res.redirect('back');
 }
 
 exports.showList = function(req, res) {
     var info = {title: '人员列表'}
     var page = info.page = Number(req.params.page || '1');
     user.count(function(err, count) {
-        if (err) console.log(err);
+        if (err) {
+            console.log(err);
+            req.flash('error', '系统未知错误。');
+            return res.redirect('back');
+        }
         info.totpage = Math.ceil(count / settings.perpage);
         var skip = settings.perpage * (page - 1);
         user.find().sort('-create').skip(skip).limit(settings.perpage)
             .find(function(err, userlist){
+                if (err) {
+                    console.log(err);
+                    req.flash('error', '系统未知错误。');
+                    return res.redirect('back');
+                }
                 info.userlist = userlist;
                 return res.render('userlist', info);
             });

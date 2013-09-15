@@ -78,6 +78,7 @@ exports.doEditItem = function (req, res) {
                 res.locals.message.error.push('新闻已丢失，可能是日期格式错误，请立即修改后提交。');
                 return res.render('newsedit', {form: req.body, title: '修改新闻'});
             }
+            req.flash('success', '新闻已修改！');
             return res.redirect('/news/' + req.body.id);
         });
     });
