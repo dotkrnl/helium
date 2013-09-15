@@ -36,8 +36,16 @@ exports.showItem = function(req, res) {
     });
 }
 
+function dateToYMD(date) {
+    var d = date.getDate();
+    var m = date.getMonth() + 1;
+    var y = date.getFullYear();
+    return '' + y + '-' + (m<=9 ? '0' + m : m) + '-' + (d <= 9 ? '0' + d : d);
+}
+
 exports.showNewItem = function (req, res) {
-    return res.render('newsedit', {form: [], title: '添加新闻'});
+    date = dateToYMD(new Date());
+    return res.render('newsedit', {form: {}, date: date, title: '添加新闻'});
 }
 
 exports.doNewItem = function (req, res) {
@@ -63,7 +71,8 @@ exports.showEditItem = function (req, res) {
             req.flash('error', '未找到此新闻');
             return res.redirect('back');
         }
-        return res.render('newsedit', {form: editing, title: '修改新闻'});
+        var date = dateToYMD(editing.create);
+        return res.render('newsedit', {form: editing, date:date, title: '修改新闻'});
     });
 }
 

@@ -4,7 +4,7 @@ append content
 	h2= news.title
 	div.note
 		div
-			| 时间：#{news.create.getFullYear()} /
+			| 日期：#{news.create.getFullYear()} /
 			| #{news.create.getMonth() + 1} /
 			| #{news.create.getDate()}
 		div 作者：#{news.author}

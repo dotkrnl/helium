@@ -8,9 +8,9 @@ block content
             input#title(type="text", value="#{form.title || '无标题'}", name="title")
 
         div
-            label 时间
+            label 日期
             input#create(type="text",
-                value="#{form.create || Date(Date.now())}",
+                value="#{date || ''}",
                 name="create")
         
         div
