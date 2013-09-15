@@ -8,12 +8,12 @@ var news = require('../models/news');
 var md = require('markdown').markdown.toHTML;
 
 exports.showList = function(req, res) {
-    info = {title: '新闻列表'}
-    info.page = page = Number(req.params.page || '1');
+    var info = {title: '新闻列表'}
+    var page = info.page = Number(req.params.page || '1');
     news.count(function(err, count) {
         if (err) console.log(err);
         info.totpage = Math.ceil(count / settings.perpage);
-        skip = settings.perpage * (page - 1);
+        var skip = settings.perpage * (page - 1);
         news.find().sort('-create').skip(skip).limit(settings.perpage)
             .find(function(err, newslist){
                 info.newslist = newslist;
@@ -23,7 +23,7 @@ exports.showList = function(req, res) {
 };
 
 exports.showItem = function(req, res) {
-    newsid = Number(req.params.id);
+    var newsid = Number(req.params.id);
     news.findOne({id: newsid}, function(err, newsitem) {
         if (err) console.log(err);
         if (!newsitem) {
@@ -31,7 +31,7 @@ exports.showItem = function(req, res) {
             return res.redirect('/news');
         }
         newsitem.content = md(newsitem.content);
-        info = {news: newsitem, title: newsitem.title};
+        var info = {news: newsitem, title: newsitem.title};
         return res.render('newsitem', info);
     });
 }
@@ -44,7 +44,7 @@ exports.doNewItem = function (req, res) {
     res.locals.message.error = res.locals.message.error || [];
     news.findOne().sort('-id').exec(function(err, last) {
         req.body.id = last ? last.id + 1 : 0;
-        item = new news(req.body);
+        var item = new news(req.body);
         item.save(function(err) {
             if (err) {
                 res.locals.message.error.push('新闻添加失败，可能是日期格式错误。');
@@ -57,7 +57,7 @@ exports.doNewItem = function (req, res) {
 }
 
 exports.showEditItem = function (req, res) {
-    newsid = Number(req.params.id);
+    var newsid = Number(req.params.id);
     news.findOne({id: newsid}).exec(function(err, editing) {
         if (err || !editing) {
             req.flash('error', '未找到此新闻');
@@ -68,10 +68,10 @@ exports.showEditItem = function (req, res) {
 }
 
 exports.doEditItem = function (req, res) {
-    newsid = req.body.id = Number(req.params.id);
+    var newsid = req.body.id = Number(req.params.id);
     news.findOne({id: newsid}).remove(function(err, editing){
         if (err) console.log(err);
-        item = new news(req.body);
+        var item = new news(req.body);
         item.save(function(err) {
             if (err) {
                 console.log(err);
@@ -84,7 +84,7 @@ exports.doEditItem = function (req, res) {
 }
 
 exports.doDeleteItem = function (req, res) {
-    newsid = req.body.id = Number(req.params.id);
+    var newsid = req.body.id = Number(req.params.id);
     news.findOne({id: newsid}).remove(function(err, editing){
         if (err) req.flash('error', err);
         if (!editing) req.flash('error', '未找到此新闻。');

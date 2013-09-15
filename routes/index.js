@@ -10,14 +10,14 @@ var test = require('./test');
 var passport = require('passport');
 
 function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) { return next(); }
-  res.redirect('/user/signin?redirect=' + req.path);
+    if (req.isAuthenticated()) { return next(); }
+    res.redirect('/user/signin?redirect=' + req.path);
 }
 
 
 function ensureAdmin(req, res, next) {
-  if (req.isAuthenticated() && req.user.isadmin) { return next(); }
-  res.redirect('/user/signin?redirect=' + req.path);
+    if (req.isAuthenticated() && req.user.isadmin) { return next(); }
+    res.redirect('/user/signin?redirect=' + req.path);
 }
 
 function ensurePermission(req, res, next) {

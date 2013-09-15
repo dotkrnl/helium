@@ -11,11 +11,11 @@ exports.showRegister = function(req, res) {
 };
 
 exports.doRegister = function(req, res) {
-    password = req.body.password;
+    var password = req.body.password;
     res.locals.message.error = res.locals.message.error || [];
     user.normalize.normalizeAll(req.body,
         function(newinfo, errors) {
-            fallback = function(errors) {
+            var fallback = function(errors) {
                 errors.forEach(function(err) {
                     res.locals.message.error.push(err);
                 });
@@ -42,7 +42,7 @@ exports.doRegister = function(req, res) {
 };
 
 exports.showEditUser = function(req, res) {
-    username = req.params.id;
+    var username = req.params.id;
     user.findOne({username: username}).exec(function(err, editing) {
         if (!editing) {
             req.flash('error', '没有找到此用户。');
@@ -53,13 +53,13 @@ exports.showEditUser = function(req, res) {
 };
 
 exports.doEditUser = function(req, res) {
-    username = req.params.id;
-    password = req.body.password;
+    var username = req.params.id;
+    var password = req.body.password;
     req.body.password = 'passcheck';
     user.findOne({username: username}).exec(function(err, editing) {
         user.normalize.normalizeAll(req.body,
             function(newinfo, errors) {
-                fallback = function(errors) {
+                var fallback = function(errors) {
                     errors.forEach(function(err) {
                         res.locals.message.error.push(err);
                     });

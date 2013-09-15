@@ -61,7 +61,7 @@ exports.normalizer = {
     },
     
     want: function(origin, cb) {
-        okList = {'none': true, 'leader': true, 'organize': true,
+        var okList = {'none': true, 'leader': true, 'organize': true,
                   'publicize': true, 'contact': true};
         if (origin in okList) return cb(origin);
         else return cb('', '乱构造 HTTP 请求是不对的，亲~');
@@ -73,8 +73,8 @@ exports.normalizer = {
 }
 
 exports.normalizeAll = function(origin, cb) {
-    errors = [];
-    result = {};
+    var errors = [];
+    var result = {};
     genProcessGet = function(key) {
         return function(dest, err) {
             result[key] = dest;
